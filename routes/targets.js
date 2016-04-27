@@ -1,32 +1,27 @@
-const redis = require('redis'),
+const express = require('express'),
+      redis = require('redis'),
       Promise = require('bluebird'),
-      winston = require('winston'),
-      httpProxy = require('http-proxy'),
-      apiProxy = httpProxy.createProxyServer();
+      winston = require('winston');
 
 Promise.promisifyAll(redis.RedisClient.prototype);
 Promise.promisifyAll(redis.Multi.prototype);
 
 const redisClient = redis.createClient();
 
-apiProxy.on('error', (err, req, res) => {
-  res.end();
-  winston.error(err.stack);
-});
-
 module.exports = function ( app ) {
-  app.all('/*/*', (req, res) => {
-    redisClient.srandmemberAsync('infralTargets', 1)
-    .then(target => {
-      if ( !target ) {
-        return res.status(0).end();
-      }
+  let targetRouter = express.Router();
 
-      apiProxy.web(req, res, { target });
+  targetRouter.post('/', (req, res) => {
+    let t = req.body;
+    redisClient.saddAsync(t.protocol + '://' + t.host + ':' + t.port)
+    .then(() => {
+      res.status(201).end();
     })
     .catch(err => {
+      res.status(500).send(err);
       winston.error(err.stack);
-      return res.status(503).end();
     });
   });
+
+  app.use('/targets', targetRouter);
 };
