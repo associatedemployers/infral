@@ -1,0 +1,23 @@
+{
+  "name": "infral",
+  "version": "0.0.0",
+  "description": "Load balancing worker",
+  "main": "index.js",
+  "scripts": {
+    "test": "npm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/associatedemployers/infral.git"
+  },
+  "keywords": [
+    "load",
+    "balancing"
+  ],
+  "author": "Associated Employers (James1x0)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/associatedemployers/infral/issues"
+  },
+  "homepage": "https://github.com/associatedemployers/infral#readme"
+}
