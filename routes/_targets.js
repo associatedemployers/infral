@@ -21,6 +21,15 @@ module.exports = function ( app ) {
     .catch(error(res));
   });
 
+  targetRouter.delete('/', (req, res) => {
+    let t = req.body;
+    redisClient.sremAsync(pathConfig.targetStoragePath, t.protocol + '://' + t.host + ':' + t.port)
+    .then(num => {
+      res.status(num ? 204 : 404).end();
+    })
+    .catch(error(res));
+  });
+
   targetRouter.get('/', (req, res) => {
     redisClient.smembersAsync(pathConfig.targetStoragePath)
     .then(targets => res.send({ targets }))

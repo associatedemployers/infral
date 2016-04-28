@@ -1,6 +1,6 @@
 {
   "name": "infral",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Load balancing worker",
   "main": "index.js",
   "scripts": {
