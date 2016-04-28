@@ -19,5 +19,16 @@
   "bugs": {
     "url": "https://github.com/associatedemployers/infral/issues"
   },
-  "homepage": "https://github.com/associatedemployers/infral#readme"
+  "homepage": "https://github.com/associatedemployers/infral#readme",
+  "dependencies": {
+    "bluebird": "^3.3.5",
+    "body-parser": "^1.15.0",
+    "chalk": "^1.1.3",
+    "express": "^4.13.4",
+    "glob": "^7.0.3",
+    "http-proxy": "^1.13.2",
+    "morgan": "^1.7.0",
+    "redis": "^2.6.0-1",
+    "winston": "^2.2.0"
+  }
 }

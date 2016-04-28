@@ -1,7 +1,8 @@
 const express = require('express'),
       redis = require('redis'),
       Promise = require('bluebird'),
-      winston = require('winston');
+      error = require('./error'),
+      pathConfig = require('../config/paths');
 
 Promise.promisifyAll(redis.RedisClient.prototype);
 Promise.promisifyAll(redis.Multi.prototype);
@@ -13,14 +14,17 @@ module.exports = function ( app ) {
 
   targetRouter.post('/', (req, res) => {
     let t = req.body;
-    redisClient.saddAsync(t.protocol + '://' + t.host + ':' + t.port)
+    redisClient.saddAsync(pathConfig.targetStoragePath, t.protocol + '://' + t.host + ':' + t.port)
     .then(() => {
       res.status(201).end();
     })
-    .catch(err => {
-      res.status(500).send(err);
-      winston.error(err.stack);
-    });
+    .catch(error(res));
+  });
+
+  targetRouter.get('/', (req, res) => {
+    redisClient.smembersAsync(pathConfig.targetStoragePath)
+    .then(targets => res.send({ targets }))
+    .catch(error(res));
   });
 
   app.use('/targets', targetRouter);

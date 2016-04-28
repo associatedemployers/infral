@@ -6,7 +6,7 @@ var bodyParser = require('body-parser'),
     chalk      = require('chalk'),
     morgan     = require('morgan'),
     version    = require('./package.json').version,
-    logLevel   = process.env.logLevel ? process.env.logLevel : process.env.environment === 'development' || process.env.environment === 'dev' ? 'debug' : 'info';
+    logLevel   = process.env.logLevel ? process.env.logLevel : process.env.environment === 'development' ? 'debug' : 'info';
 
 winston.level = logLevel;
 
